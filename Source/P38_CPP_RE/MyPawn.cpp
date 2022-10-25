@@ -10,6 +10,7 @@
 #include "Components/ArrowComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Kismet/GamePlayStatics.h"
+#include "MyRocket.h"
 
 // Sets default values
 AMyPawn::AMyPawn()
@@ -108,4 +109,5 @@ void AMyPawn::Yaw(float Value)
 
 void AMyPawn::Fire()
 {
+	GetWorld()->SpawnActor<AActor>(AMyRocket::StaticClass(), Arrow->K2_GetComponentLocation(), Arrow->K2_GetComponentRotation());
 }
