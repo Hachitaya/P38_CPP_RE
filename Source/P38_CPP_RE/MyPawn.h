@@ -57,4 +57,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UFloatingPawnMovement* Movement;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+	float RotationSpeed = 20;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+	float PropellerRotation = 3600.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+	float MoveSpeed = 100.f;
 };

@@ -23,7 +23,7 @@ AMyPawn::AMyPawn()
 	Body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
 	Body->SetupAttachment(Box);
 
-	ConstructorHelpers::FObjectFinder<UStaticMesh> SM_Body(TEXT("StaticMesh'/Game/New_P38/Meshes/SM_P38_Body.SM_P38_Body'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> SM_Body(TEXT("StaticMesh'/Game/New_P38/Meshes/SM_P38_Body.SM_P38_Body'"));
 	if (SM_Body.Succeeded())
 	{
 		Body->SetStaticMesh(SM_Body.Object);
@@ -35,24 +35,31 @@ AMyPawn::AMyPawn()
 	Right = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Right"));
 	Right->SetupAttachment(Body);
 
-	ConstructorHelpers::FObjectFinder<UStaticMesh> SM_Propeller(TEXT("StaticMesh'/Game/New_P38/Meshes/SM_P38_Propeller.SM_P38_Propeller'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> SM_Propeller(TEXT("StaticMesh'/Game/New_P38/Meshes/SM_P38_Propeller.SM_P38_Propeller'"));
 	if (SM_Propeller.Succeeded())
 	{
 		Left->SetStaticMesh(SM_Propeller.Object);
 		Right->SetStaticMesh(SM_Propeller.Object);
+		Right->SetRelativeLocation(FVector(37.f,21.f,0.4f));
+		Left->SetRelativeLocation(FVector(37.f, -21.f, 0.4f));
 	}
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(Box);
+	SpringArm->TargetArmLength = 200.f;
+	SpringArm->bEnableCameraRotationLag = true;
+	SpringArm->CameraRotationLagSpeed = 2;
+
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
 
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
 	Arrow->SetupAttachment(Box);
+	Arrow->SetRelativeLocation(FVector(80.f, 0, 0));
 
 	Movement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("Movement"));
-
+	Movement->MaxSpeed = MoveSpeed;
 
 }
 
@@ -67,7 +74,10 @@ void AMyPawn::BeginPlay()
 void AMyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	Left->AddLocalRotation(FRotator(0, 0, PropellerRotation * DeltaTime));
+	Right->AddLocalRotation(FRotator(0, 0, PropellerRotation * DeltaTime));
 
+	AddMovementInput(GetActorForwardVector());
 }
 
 // Called to bind functionality to input
