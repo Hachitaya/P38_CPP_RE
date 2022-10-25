@@ -6,6 +6,14 @@
 #include "GameFramework/Pawn.h"
 #include "MyPawn.generated.h"
 
+class UBoxComponent;
+class UStaticMeshComponent;
+class UCameraComponent;
+class USpringArmComponent;
+class UFloatingPawnMovement;
+class UArrowComponent;
+
+
 UCLASS()
 class P38_CPP_RE_API AMyPawn : public APawn
 {
@@ -26,4 +34,27 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UBoxComponent* Box;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UStaticMeshComponent* Body;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UStaticMeshComponent* Left;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UStaticMeshComponent* Right;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USpringArmComponent* SpringArm;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UCameraComponent* Camera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UArrowComponent* Arrow;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UFloatingPawnMovement* Movement;
 };
