@@ -85,5 +85,27 @@ void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &AMyPawn::Fire);
+	PlayerInputComponent->BindAxis(TEXT("Pitch"), this, &AMyPawn::Pitch);
+	PlayerInputComponent->BindAxis(TEXT("Roll"), this, &AMyPawn::Roll);
+	PlayerInputComponent->BindAxis(TEXT("Yaw"), this, &AMyPawn::Yaw);
 }
 
+void AMyPawn::Pitch(float Value)
+{
+	AddActorLocalRotation(FRotator(Value * RotationSpeed * UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 0, 0));
+}
+
+void AMyPawn::Roll(float Value)
+{
+	AddActorLocalRotation(FRotator(0, 0, Value * RotationSpeed * UGameplayStatics::GetWorldDeltaSeconds(GetWorld())));
+}
+
+void AMyPawn::Yaw(float Value)
+{
+	AddActorLocalRotation(FRotator(0, Value * RotationSpeed * UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 0));
+}
+
+void AMyPawn::Fire()
+{
+}

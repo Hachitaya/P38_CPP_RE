@@ -34,6 +34,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void Pitch(float Value);
+
+	void Roll(float Value);
+
+	void Yaw(float Value);
+
+	void Fire();
+
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UBoxComponent* Box;
 
