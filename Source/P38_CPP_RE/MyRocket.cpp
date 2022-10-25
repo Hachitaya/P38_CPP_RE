@@ -5,6 +5,8 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMyRocket::AMyRocket()
@@ -14,12 +16,16 @@ AMyRocket::AMyRocket()
 
 	Box = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
 	RootComponent = Box;
+	// Collision
+	Box->SetCollisionProfileName(TEXT("Tirgger"));
+	Box->OnComponentBeginOverlap.AddDynamic(this, &AMyRocket::OnOverlapBegin);
+	Box->SetGenerateOverlapEvents(true);
 
 	RocketBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RocketBody"));
 	RocketBody->SetupAttachment(Box);
 	RocketBody->SetRelativeRotation(FRotator(-90, 0, 0));
 
-	ConstructorHelpers::FObjectFinder<UStaticMesh> SM_RocketBody(TEXT("StaticMesh'/Game/New_P38/Meshes/SM_Rocket.SM_Rocket'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> SM_RocketBody(TEXT("StaticMesh'/Game/New_P38/Meshes/SM_Rocket.SM_Rocket'"));
 	if (SM_RocketBody.Succeeded())
 	{
 		RocketBody->SetStaticMesh(SM_RocketBody.Object);
@@ -29,13 +35,19 @@ AMyRocket::AMyRocket()
 	Movement->InitialSpeed = 3000.f;
 	Movement->MaxSpeed = 6000.f;
 	Movement->ProjectileGravityScale = 0.f;
+
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> P_Explosion(TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"));
+	if (P_Explosion.Succeeded())
+	{
+		pParticle = P_Explosion.Object;
+	}
+
 }
 
 // Called when the game starts or when spawned
 void AMyRocket::BeginPlay()
 {
 	Super::BeginPlay();
-
 	SetLifeSpan(2.f);
 	
 }
@@ -45,5 +57,17 @@ void AMyRocket::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AMyRocket::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor && (OtherActor != this) && OtherComp)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Overlap Begin"));
+		if (pParticle) {
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), pParticle, GetActorTransform());
+		}
+		Destroy();
+	}
 }
 
