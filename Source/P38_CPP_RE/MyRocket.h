@@ -12,7 +12,7 @@
 class UBoxComponent;
 class UStaticMeshComponent;
 class UProjectileMovementComponent;
-class UMaterialInstance;
+
 
 UCLASS()
 class P38_CPP_RE_API AMyRocket : public AActor
@@ -43,8 +43,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UParticleSystem* Particle;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//UMaterialInstance* RocketMaterial;
+
 
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

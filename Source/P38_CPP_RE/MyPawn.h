@@ -12,7 +12,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class UFloatingPawnMovement;
 class UArrowComponent;
-class UMaterial;
+
 
 UCLASS()
 class P38_CPP_RE_API AMyPawn : public APawn

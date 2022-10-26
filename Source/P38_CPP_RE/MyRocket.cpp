@@ -35,11 +35,11 @@ AMyRocket::AMyRocket()
 		RocketBody->SetStaticMesh(SM_RocketBody.Object);
 	}
 
-	//static ConstructorHelpers::FObjectFinder<UMaterialInstance> MI_RocketMaterial(TEXT("MaterialInstanceConstant'/Game/New_P38/Materials/MI_P38_Rocket.MI_P38_Rocket'"));
-	//if (MI_RocketMaterial.Succeeded())
-	//{
-	//	RocketBody->SetMaterial(0, MI_RocketMaterial.Object);
-	//}
+	static ConstructorHelpers::FObjectFinder<UMaterialInstance> MI_RocketMaterial(TEXT("MaterialInstanceConstant'/Game/New_P38/Materials/MI_P38_Rocket.MI_P38_Rocket'"));
+	if (MI_RocketMaterial.Succeeded())
+	{
+		RocketBody->SetMaterial(0, MI_RocketMaterial.Object);
+	}
 
 	Movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
 	Movement->InitialSpeed = 3000.f;

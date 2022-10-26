@@ -51,6 +51,8 @@ AMyPawn::AMyPawn()
 	if (BodyMat.Succeeded())
 	{
 		Body->SetMaterial(0, BodyMat.Object);
+		Left->SetMaterial(0, BodyMat.Object);
+		Right->SetMaterial(0, BodyMat.Object);
 	}
 
 
