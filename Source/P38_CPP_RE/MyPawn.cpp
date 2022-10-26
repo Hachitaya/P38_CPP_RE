@@ -11,6 +11,8 @@
 #include "Engine/StaticMesh.h"
 #include "Kismet/GamePlayStatics.h"
 #include "MyRocket.h"
+#include "Materials/MaterialInstance.h"
+
 
 // Sets default values
 AMyPawn::AMyPawn()
@@ -44,6 +46,13 @@ AMyPawn::AMyPawn()
 		Right->SetRelativeLocation(FVector(37.f,21.f,0.4f));
 		Left->SetRelativeLocation(FVector(37.f, -21.f, 0.4f));
 	}
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInstance> BodyMat(TEXT("MaterialInstanceConstant'/Game/New_P38/Materials/MI_P38_Body.MI_P38_Body'"));
+	if (BodyMat.Succeeded())
+	{
+		Body->SetMaterial(0, BodyMat.Object);
+	}
+
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(Box);

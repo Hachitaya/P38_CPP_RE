@@ -12,7 +12,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class UFloatingPawnMovement;
 class UArrowComponent;
-
+class UMaterial;
 
 UCLASS()
 class P38_CPP_RE_API AMyPawn : public APawn
@@ -55,6 +55,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* Right;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UMaterialInstance* BodyMaterial;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USpringArmComponent* SpringArm;
 
