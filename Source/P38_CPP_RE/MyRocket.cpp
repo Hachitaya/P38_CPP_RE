@@ -45,7 +45,9 @@ AMyRocket::AMyRocket()
 	Movement->InitialSpeed = 3000.f;
 	Movement->MaxSpeed = 6000.f;
 	Movement->ProjectileGravityScale = 0.f;
-	
+
+	Movement->bIsHomingProjectile = true;
+	Movement->HomingAccelerationMagnitude = 1500.f;
 
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> P_Explosion(TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"));
 	if (P_Explosion.Succeeded())
@@ -60,7 +62,7 @@ void AMyRocket::BeginPlay()
 {
 	Super::BeginPlay();
 	SetLifeSpan(2.f);
-	
+
 }
 
 // Called every frame
