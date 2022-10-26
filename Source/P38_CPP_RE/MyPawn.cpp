@@ -57,7 +57,7 @@ AMyPawn::AMyPawn()
 
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
 	Arrow->SetupAttachment(Box);
-	Arrow->SetRelativeLocation(FVector(80.f, 0, 0));
+	Arrow->SetRelativeLocation(FVector(0.f, 0, 0));
 
 	Movement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("Movement"));
 	Movement->MaxSpeed = MoveSpeed;

@@ -7,6 +7,8 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "MyPawn.h"
+
 
 // Sets default values
 AMyRocket::AMyRocket()
@@ -16,10 +18,10 @@ AMyRocket::AMyRocket()
 
 	Box = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
 	RootComponent = Box;
-	// Collision
 	Box->SetCollisionProfileName(TEXT("Tirgger"));
-	Box->OnComponentBeginOverlap.AddDynamic(this, &AMyRocket::OnOverlapBegin);
 	Box->SetGenerateOverlapEvents(true);
+	//Collision
+	Box->OnComponentBeginOverlap.AddDynamic(this, &AMyRocket::OnOverlapBegin);
 
 	RocketBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RocketBody"));
 	RocketBody->SetupAttachment(Box);
@@ -61,12 +63,15 @@ void AMyRocket::Tick(float DeltaTime)
 
 void AMyRocket::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor && (OtherActor != this) && OtherComp)
+
+	if (OtherActor && (OtherActor != this) && (OtherActor) != Cast<AMyPawn>(OtherActor) && OtherComp)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Overlap Begin"));
-		if (pParticle) {
+		if (pParticle)
+		{
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), pParticle, GetActorTransform());
 		}
+
 		Destroy();
 	}
 }
